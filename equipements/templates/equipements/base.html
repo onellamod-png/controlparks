@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Control Parks{% endblock %}</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; }
+        .navbar { background-color: #1F4E79; color: white; padding: 15px 30px; display: flex; align-items: center; justify-content: space-between; }
+        .navbar h1 { font-size: 20px; }
+        .nav-links { display: flex; gap: 15px; }
+        .nav-links a { color: white; text-decoration: none; padding: 8px 15px; border-radius: 5px; font-size: 14px; }
+        .nav-links a:hover { background-color: #2E75B6; }
+        .container { padding: 30px; }
+        h2 { color: #1F4E79; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+        th { background-color: #1F4E79; color: white; padding: 12px; text-align: left; }
+        td { padding: 12px; border-bottom: 1px solid #eee; }
+        tr:hover { background-color: #f9f9f9; }
+        .btn { background-color: #1F4E79; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none; display: inline-block; }
+        .btn:hover { background-color: #2E75B6; }
+        .retour { display: inline-block; margin-bottom: 20px; color: #1F4E79; text-decoration: none; }
+        .form-group { margin-bottom: 20px; max-width: 600px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        .checkbox-label { display: flex; align-items: center; gap: 8px; font-weight: normal; cursor: pointer; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        .statut-encours { color: green; font-weight: bold; }
+        .statut-termine { color: gray; }
+ul { list-style: none; padding: 0; margin: 0; }
+ul li { display: flex; flex-direction: row-reverse; justify-content: flex-end; align-items: center; gap: 8px; margin-bottom: 8px; }
+ul li label { font-weight: normal; font-size: 13px; margin: 0; display: inline; }
+ul li input[type="checkbox"] { width: auto; margin: 0; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>Control Parks - Gestion des équipements</h1>
+ <div class="nav-links">
+    <a href="/">Accueil</a>
+    <a href="/boitiers/">Boîtiers</a>
+    <a href="/sims/">Cartes SIM</a>
+    <a href="/clients/">Clients</a>
+    <a href="/vehicules/">Véhicules</a>
+    <a href="/installations/">Installations</a>
+    <a href="/diagnostics/">Diagnostics</a>
+</div>
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,86 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Tableau de bord - Control Parks{% endblock %}
+{% block content %}
+<h2>Tableau de bord</h2>
+<p style="color:#666; font-size:13px; margin-bottom:25px;">Vue d'ensemble du parc d'équipements télématiques</p>
+
+<!-- LIGNE 1 : CARDS PRINCIPALES -->
+<div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
+
+    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1F4E79;">
+        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Boîtiers installés</p>
+        <h2 style="font-size:42px; color:#1F4E79; margin:8px 0 0 0;">{{ total_installations }}</h2>
+        <p style="color:#1F4E79; font-size:12px; margin:5px 0 0 0;">▲ En cours</p>
+    </div>
+
+    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid red;">
+        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Boîtiers en panne</p>
+        <h2 style="font-size:42px; color:red; margin:8px 0 0 0;">{{ boitiers_en_panne }}</h2>
+        <p style="color:red; font-size:12px; margin:5px 0 0 0;">⚠ Intervention requise</p>
+    </div>
+
+    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid orange;">
+        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Boîtiers en stock</p>
+        <h2 style="font-size:42px; color:orange; margin:8px 0 0 0;">{{ boitiers_en_stock }}</h2>
+        <p style="color:orange; font-size:12px; margin:5px 0 0 0;">◉ Disponibles</p>
+    </div>
+
+    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #2E75B6;">
+        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Cartes SIM</p>
+        <h2 style="font-size:42px; color:#2E75B6; margin:8px 0 0 0;">{{ total_sims }}</h2>
+        <p style="color:#2E75B6; font-size:12px; margin:5px 0 0 0;">◉ Enregistrées</p>
+    </div>
+
+    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #27AE60;">
+        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Véhicules suivis</p>
+        <h2 style="font-size:42px; color:#27AE60; margin:8px 0 0 0;">{{ total_vehicules }}</h2>
+        <p style="color:#27AE60; font-size:12px; margin:5px 0 0 0;">◉ Enregistrés</p>
+    </div>
+
+    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #9B59B6;">
+        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Diagnostics</p>
+        <h2 style="font-size:42px; color:#9B59B6; margin:8px 0 0 0;">{{ total_diagnostics }}</h2>
+        <p style="color:#9B59B6; font-size:12px; margin:5px 0 0 0;">◉ Signalements</p>
+    </div>
+
+</div>
+
+<!-- DERNIÈRES INSTALLATIONS -->
+<div style="background: white; border-radius: 10px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+        <h3 style="color:#1F4E79; margin:0;">Dernières installations</h3>
+        <a href="/installations/" style="color:#2E75B6; font-size:13px;">Voir tout →</a>
+    </div>
+    <div style="overflow-x: auto;">
+    <table>
+        <tr>
+            <th>Boîtier</th>
+            <th>Véhicule</th>
+            <th>Technicien</th>
+            <th>Date</th>
+            <th>Statut</th>
+        </tr>
+        {% for installation in dernieres_installations %}
+        <tr>
+            <td>{{ installation.boitier }}</td>
+            <td>{{ installation.vehicule }}</td>
+            <td>{{ installation.technicien }}</td>
+            <td>{{ installation.date_installation }}</td>
+            <td>
+                {% if installation.date_desinstallation %}
+                <span class="statut-termine">Terminée</span>
+                {% else %}
+                <span class="statut-encours">En cours</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5" style="text-align:center; color:#999;">Aucune installation enregistrée.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+</div>
+
+{% endblock %}

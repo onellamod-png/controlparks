@@ -1,0 +1,12 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Supprimer un véhicule{% endblock %}
+{% block content %}
+<a href="/vehicules/" class="retour">← Retour à la liste</a>
+<h2>Supprimer le véhicule {{ vehicule.plaque }}</h2>
+<p>Es-tu sûre de vouloir supprimer ce véhicule ? Cette action est irréversible.</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn" style="background-color: red;">Confirmer la suppression</button>
+    <a href="/vehicules/" class="btn" style="background-color: gray; margin-left: 10px;">Annuler</a>
+</form>
+{% endblock %}

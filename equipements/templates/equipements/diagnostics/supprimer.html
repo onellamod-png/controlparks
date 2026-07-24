@@ -1,0 +1,12 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Supprimer un diagnostic{% endblock %}
+{% block content %}
+<a href="/diagnostics/" class="retour">← Retour à la liste</a>
+<h2>Supprimer le diagnostic {{ diagnostic }}</h2>
+<p>Es-tu sûre de vouloir supprimer ce diagnostic ? Cette action est irréversible.</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn" style="background-color: red;">Confirmer la suppression</button>
+    <a href="/diagnostics/" class="btn" style="background-color: gray; margin-left: 10px;">Annuler</a>
+</form>
+{% endblock %}

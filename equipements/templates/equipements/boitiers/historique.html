@@ -1,0 +1,58 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Historique du boîtier{{ boitier.numero_serie }}{% endblock %}
+{% block content %}
+<a href="/boitiers/" class="retour">← Retour à la liste</a>
+<h2>Historique du boîtier : {{ boitier.numero_serie }}</h2>
+
+<div style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 30px;">
+    <h3 style="color: #1F4E79; margin-bottom: 15px;">Informations du boîtier</h3>
+    <p><strong>Numéro de série :</strong> {{ boitier.numero_serie }}</p>
+    <p><strong>Modèle :</strong> {{ boitier.modele }}</p>
+    <p><strong>État actuel :</strong> {{ boitier.get_etat_display }}</p>
+    <p><strong>Date d'achat :</strong> {{ boitier.date_achat }}</p>
+</div>
+
+<h3 style="color: #1F4E79; margin-bottom: 15px;">Historique des installations</h3>
+
+{% if installations %}
+{% for installation in installations %}
+<div style="background: white; border-radius: 8px; padding: 20px; margin-bottom: 20px; border-left: 4px solid #1F4E79;">
+    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+        <strong>Véhicule : {{ installation.vehicule }}</strong>
+        <span class="{% if installation.date_desinstallation %}statut-termine{% else %}statut-encours{% endif %}">
+            {% if installation.date_desinstallation %}Terminée{% else %}En cours{% endif %}
+        </span>
+    </div>
+    <p><strong>Carte SIM :</strong> {{ installation.carte_sim }}</p>
+    <p><strong>Technicien :</strong> {{ installation.technicien }}</p>
+    <p><strong>Date installation :</strong> {{ installation.date_installation }}</p>
+    {% if installation.date_desinstallation %}
+    <p><strong>Date désinstallation :</strong> {{ installation.date_desinstallation }}</p>
+    {% endif %}
+    {% if installation.commentaire %}
+    <p><strong>Commentaire :</strong> {{ installation.commentaire }}</p>
+    {% endif %}
+
+    {% if installation.diagnostics.all %}
+    <div style="margin-top: 15px; background: #f9f9f9; border-radius: 5px; padding: 10px;">
+        <strong style="color: #2E75B6;">Diagnostics :</strong>
+        {% for diagnostic in installation.diagnostics.all %}
+        <div style="margin-top: 8px; font-size: 13px;">
+            <span>{{ diagnostic.date_signalement|date:"d/m/Y" }}</span> —
+            <span>{{ diagnostic.get_origine_display }}</span> —
+            <span>
+                {% for defaut in diagnostic.defauts.all %}
+                    {{ defaut.libelle }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+</div>
+{% endfor %}
+{% else %}
+<p style="color: #999;">Aucune installation enregistrée pour ce boîtier.</p>
+{% endif %}
+
+{% endblock %}

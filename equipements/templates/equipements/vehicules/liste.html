@@ -1,0 +1,41 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Liste des véhicules{% endblock %}
+{% block content %}
+<a href="/" class="retour">← Retour au tableau de bord</a>
+<h2>Liste des véhicules</h2>
+<a href="/vehicules/ajouter/" class="btn">+ Ajouter un véhicule</a>
+<br><br>
+<form method="GET" action="/vehicules/">
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher par plaque..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+        <button type="submit" class="btn">Rechercher</button>
+    </div>
+</form>
+<div style="overflow-x: auto; width: 100%;">
+<table>
+    <tr>
+        <th>Plaque</th>
+        <th>Marque</th>
+        <th>Modèle</th>
+        <th>Client</th>
+        <th>Actions</th>
+    </tr>
+    {% for vehicule in vehicules %}
+    <tr>
+        <td>{{ vehicule.plaque }}</td>
+        <td>{{ vehicule.marque }}</td>
+        <td>{{ vehicule.modele }}</td>
+        <td>{{ vehicule.client }}</td>
+        <td>
+            <a href="/vehicules/{{ vehicule.id }}/modifier/" class="btn" style="font-size:11px; padding:4px 8px;">Modifier</a>
+            <a href="/vehicules/{{ vehicule.id }}/supprimer/" class="btn" style="font-size:11px; padding:4px 8px; background-color:red; margin-left:5px;">Supprimer</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5" style="text-align:center; color:#999;">Aucun véhicule trouvé.</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

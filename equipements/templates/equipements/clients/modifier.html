@@ -1,0 +1,16 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Modifier un client{% endblock %}
+{% block content %}
+<a href="/clients/" class="retour">← Retour à la liste</a>
+<h2>Modifier le client {{ client.nom }} {{ client.prenom }}</h2>
+<form method="POST">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn">Enregistrer les modifications</button>
+</form>
+{% endblock %}

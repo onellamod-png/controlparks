@@ -1,0 +1,301 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Nouvelle installation{% endblock %}
+{% block content %}
+<a href="/installations/" class="retour">← Retour à la liste</a>
+<h2>Nouvelle installation</h2>
+
+<form method="POST" id="form-installation">
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label>Boîtier <a href="#" onclick="ouvrirModal('modal-boitier')" style="font-size:12px; color:#2E75B6;">+ Nouveau boîtier</a></label>
+        {{ form.boitier }}
+    </div>
+
+    <div class="form-group">
+        <label>Carte SIM <a href="#" onclick="ouvrirModal('modal-sim')" style="font-size:12px; color:#2E75B6;">+ Nouvelle SIM</a></label>
+        {{ form.carte_sim }}
+    </div>
+
+    <div class="form-group">
+        <label>Client <a href="#" onclick="ouvrirModal('modal-client')" style="font-size:12px; color:#2E75B6;">+ Nouveau client</a></label>
+        <select id="client-select" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+            <option value="">-- Sélectionner un client --</option>
+            {% for client in clients %}
+            <option value="{{ client.id }}">{{ client.nom }} {{ client.prenom }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Véhicule <a href="#" onclick="ouvrirModal('modal-vehicule')" style="font-size:12px; color:#2E75B6;">+ Nouveau véhicule</a></label>
+        {{ form.vehicule }}
+    </div>
+
+    <div class="form-group">
+        <label>Technicien <a href="#" onclick="ouvrirModal('modal-technicien')" style="font-size:12px; color:#2E75B6;">+ Nouveau technicien</a></label>
+        {{ form.technicien }}
+    </div>
+
+    <div class="form-group">
+        <label>Date d'installation</label>
+        {{ form.date_installation }}
+    </div>
+
+    <div class="form-group">
+        <label>Commentaire</label>
+        {{ form.commentaire }}
+    </div>
+
+    <button type="submit" class="btn">Enregistrer</button>
+</form>
+
+<!-- MODAL BOÎTIER -->
+<div id="modal-boitier" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="background:white; margin:10% auto; padding:30px; width:90%; max-width:500px; border-radius:8px;">
+        <h3 style="color:#1F4E79; margin-bottom:20px;">Nouveau boîtier</h3>
+        <div class="form-group">
+            <label>Numéro de série</label>
+            <input type="text" id="b-numero-serie" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Modèle</label>
+            <select id="b-modele" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                {% for modele in modeles %}
+                <option value="{{ modele.id }}">{{ modele.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="sauvegarderBoitier()" class="btn">Enregistrer</button>
+            <button onclick="fermerModal('modal-boitier')" class="btn" style="background-color:gray;">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CARTE SIM -->
+<div id="modal-sim" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="background:white; margin:10% auto; padding:30px; width:90%; max-width:500px; border-radius:8px;">
+        <h3 style="color:#1F4E79; margin-bottom:20px;">Nouvelle carte SIM</h3>
+        <div class="form-group">
+            <label>Numéro téléphone</label>
+            <input type="text" id="s-telephone" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>ICCID (optionnel)</label>
+            <input type="text" id="s-iccid" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Opérateur</label>
+            <select id="s-operateur" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                {% for operateur in operateurs %}
+                <option value="{{ operateur.id }}">{{ operateur.nom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="sauvegarderSIM()" class="btn">Enregistrer</button>
+            <button onclick="fermerModal('modal-sim')" class="btn" style="background-color:gray;">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL CLIENT -->
+<div id="modal-client" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="background:white; margin:10% auto; padding:30px; width:90%; max-width:500px; border-radius:8px;">
+        <h3 style="color:#1F4E79; margin-bottom:20px;">Nouveau client</h3>
+        <div class="form-group">
+            <label>Nom</label>
+            <input type="text" id="c-nom" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" id="c-prenom" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Téléphone</label>
+            <input type="text" id="c-telephone" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" id="c-email" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="sauvegarderClient()" class="btn">Enregistrer</button>
+            <button onclick="fermerModal('modal-client')" class="btn" style="background-color:gray;">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL VÉHICULE -->
+<div id="modal-vehicule" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="background:white; margin:10% auto; padding:30px; width:90%; max-width:500px; border-radius:8px;">
+        <h3 style="color:#1F4E79; margin-bottom:20px;">Nouveau véhicule</h3>
+        <div class="form-group">
+            <label>Plaque</label>
+            <input type="text" id="v-plaque" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Marque</label>
+            <input type="text" id="v-marque" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Modèle</label>
+            <input type="text" id="v-modele" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Client <a href="#" onclick="ouvrirModal('modal-client')" style="font-size:12px; color:#2E75B6;">+ Nouveau client</a></label>
+            <select id="v-client" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                <option value="">-- Sélectionner un client --</option>
+                {% for client in clients %}
+                <option value="{{ client.id }}">{{ client.nom }} {{ client.prenom }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="sauvegarderVehicule()" class="btn">Enregistrer</button>
+            <button onclick="fermerModal('modal-vehicule')" class="btn" style="background-color:gray;">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TECHNICIEN -->
+<div id="modal-technicien" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000;">
+    <div style="background:white; margin:10% auto; padding:30px; width:90%; max-width:500px; border-radius:8px;">
+        <h3 style="color:#1F4E79; margin-bottom:20px;">Nouveau technicien</h3>
+        <div class="form-group">
+            <label>Nom</label>
+            <input type="text" id="t-nom" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Prénom</label>
+            <input type="text" id="t-prenom" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Téléphone</label>
+            <input type="text" id="t-telephone" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" id="t-email" style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+        </div>
+        <div style="display:flex; gap:10px; margin-top:20px;">
+            <button onclick="sauvegarderTechnicien()" class="btn">Enregistrer</button>
+            <button onclick="fermerModal('modal-technicien')" class="btn" style="background-color:gray;">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<script>
+function ouvrirModal(id) {
+    document.getElementById(id).style.display = 'block';
+}
+function fermerModal(id) {
+    document.getElementById(id).style.display = 'none';
+}
+
+function sauvegarderBoitier() {
+    const data = {
+        numero_serie: document.getElementById('b-numero-serie').value,
+        modele_id: document.getElementById('b-modele').value,
+    };
+    fetch('/api/boitier/ajouter/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+        body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(data => {
+        const select = document.querySelector('select[name="boitier"]');
+        const option = new Option(data.label, data.id, true, true);
+        select.add(option);
+        fermerModal('modal-boitier');
+    });
+}
+
+function sauvegarderSIM() {
+    const data = {
+        iccid: document.getElementById('s-iccid').value,
+        numero_telephone: document.getElementById('s-telephone').value,
+        operateur_id: document.getElementById('s-operateur').value,
+    };
+    fetch('/api/sim/ajouter/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+        body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(data => {
+        const select = document.querySelector('select[name="carte_sim"]');
+        const option = new Option(data.label, data.id, true, true);
+        select.add(option);
+        fermerModal('modal-sim');
+    });
+}
+
+function sauvegarderClient() {
+    const data = {
+        nom: document.getElementById('c-nom').value,
+        prenom: document.getElementById('c-prenom').value,
+        telephone: document.getElementById('c-telephone').value,
+        email: document.getElementById('c-email').value,
+    };
+    fetch('/api/client/ajouter/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+        body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(data => {
+        const selects = document.querySelectorAll('#v-client, #client-select');
+        selects.forEach(select => {
+            const option = new Option(data.label, data.id, true, true);
+            select.add(option);
+        });
+        fermerModal('modal-client');
+    });
+}
+
+function sauvegarderVehicule() {
+    const data = {
+        plaque: document.getElementById('v-plaque').value,
+        marque: document.getElementById('v-marque').value,
+        modele: document.getElementById('v-modele').value,
+        client_id: document.getElementById('v-client').value,
+    };
+    fetch('/api/vehicule/ajouter/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+        body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(data => {
+        const select = document.querySelector('select[name="vehicule"]');
+        const option = new Option(data.label, data.id, true, true);
+        select.add(option);
+        fermerModal('modal-vehicule');
+    });
+}
+
+function sauvegarderTechnicien() {
+    const data = {
+        nom: document.getElementById('t-nom').value,
+        prenom: document.getElementById('t-prenom').value,
+        telephone: document.getElementById('t-telephone').value,
+        email: document.getElementById('t-email').value,
+    };
+    fetch('/api/technicien/ajouter/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'},
+        body: JSON.stringify(data)
+    })
+    .then(r => r.json())
+    .then(data => {
+        const select = document.querySelector('select[name="technicien"]');
+        const option = new Option(data.label, data.id, true, true);
+        select.add(option);
+        fermerModal('modal-technicien');
+    });
+}
+</script>
+{% endblock %}

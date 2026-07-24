@@ -1,0 +1,12 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Supprimer une carte SIM{% endblock %}
+{% block content %}
+<a href="/sims/" class="retour">← Retour à la liste</a>
+<h2>Supprimer la carte SIM {{ sim.iccid }}</h2>
+<p>Es-tu sûre de vouloir supprimer cette carte SIM ? Cette action est irréversible.</p>
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn" style="background-color: red;">Confirmer la suppression</button>
+    <a href="/sims/" class="btn" style="background-color: gray; margin-left: 10px;">Annuler</a>
+</form>
+{% endblock %}

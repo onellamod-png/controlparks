@@ -1,0 +1,43 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Liste des cartes SIM{% endblock %}
+{% block content %}
+<a href="/" class="retour">← Retour au tableau de bord</a>
+<h2>Liste des cartes SIM</h2>
+<a href="/sims/ajouter/" class="btn">+ Ajouter une carte SIM</a>
+<br><br>
+<form method="GET" action="/sims/">
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher par ICCID..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+        <button type="submit" class="btn">Rechercher</button>
+    </div>
+</form>
+<div style="overflow-x: auto; width: 100%;">
+<table style="font-size: 13px;">
+    <tr>
+    <th>Numéro téléphone</th>
+    <th>ICCID</th>
+    <th>Opérateur</th>
+    <th>État</th>
+    <th>Date activation</th>
+    <th>Actions</th>
+</tr>
+{% for sim in sims %}
+<tr>
+    <td>{{ sim.numero_telephone }}</td>
+    <td>{{ sim.iccid }}</td>
+    <td>{{ sim.operateur }}</td>
+    <td>{{ sim.get_etat_display }}</td>
+    <td>{{ sim.date_activation }}</td>
+    <td>
+        <a href="/sims/{{ sim.id }}/modifier/" class="btn" style="font-size:11px; padding:4px 8px;">Modifier</a>
+        <a href="/sims/{{ sim.id }}/supprimer/" class="btn" style="font-size:11px; padding:4px 8px; background-color:red; margin-left:5px;">Supprimer</a>
+    </td>
+</tr>
+    {% empty %}
+    <tr>
+        <td colspan="6" style="text-align:center; color:#999;">Aucune carte SIM trouvée.</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

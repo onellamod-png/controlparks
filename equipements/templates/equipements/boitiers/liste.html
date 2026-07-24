@@ -1,0 +1,44 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Liste des boîtiers{% endblock %}
+{% block content %}
+<a href="/" class="retour">← Retour au tableau de bord</a>
+<h2>Liste des boîtiers</h2>
+<a href="/boitiers/ajouter/" class="btn">+ Ajouter un boîtier</a>
+<br><br>
+
+<form method="GET" action="/boitiers/">
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher par numéro de série..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+        <button type="submit" class="btn">Rechercher</button>
+    </div>
+</form>
+
+<div style="overflow-x: auto; width: 100%;">
+<table>
+    <tr>
+        <th>Numéro de série</th>
+        <th>Modèle</th>
+        <th>État</th>
+        <th>Date d'achat</th>
+        <th>Actions</th>
+    </tr>
+    {% for boitier in boitiers %}
+    <tr>
+        <td>{{ boitier.numero_serie }}</td>
+        <td>{{ boitier.modele }}</td>
+        <td>{{ boitier.get_etat_display }}</td>
+        <td>{{ boitier.date_achat }}</td>
+        <td>
+            <a href="/boitiers/{{ boitier.id }}/historique/" class="btn" style="font-size:11px; padding:4px 8px; background-color:#2E75B6;">Historique</a>
+            <a href="/boitiers/{{ boitier.id }}/modifier/" class="btn" style="font-size:11px; padding:4px 8px;">Modifier</a>
+            <a href="/boitiers/{{ boitier.id }}/supprimer/" class="btn" style="font-size:11px; padding:4px 8px; background-color:red; margin-left:5px;">Supprimer</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="5" style="text-align:center; color:#999;">Aucun boîtier trouvé.</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}

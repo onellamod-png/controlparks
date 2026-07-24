@@ -1,0 +1,51 @@
+{% extends 'equipements/base.html' %}
+{% block title %}Liste des installations{% endblock %}
+{% block content %}
+<a href="/" class="retour">← Retour au tableau de bord</a>
+<h2>Liste des installations</h2>
+<a href="/installations/ajouter/" class="btn">+ Nouvelle installation</a>
+<br><br>
+<form method="GET" action="/installations/">
+    <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+        <input type="text" name="q" value="{{ query }}" placeholder="Rechercher par numéro de série ou plaque..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 5px; font-size: 14px;">
+        <button type="submit" class="btn">Rechercher</button>
+    </div>
+</form>
+<div style="overflow-x: auto; width: 100%;">
+<table style="font-size: 13px;">
+    <tr>
+        <th>Boîtier</th>
+        <th>Carte SIM</th>
+        <th>Véhicule</th>
+        <th>Technicien</th>
+        <th>Date installation</th>
+        <th>Statut</th>
+        <th>Actions</th>
+    </tr>
+    {% for installation in installations %}
+    <tr>
+        <td>{{ installation.boitier }}</td>
+        <td>{{ installation.carte_sim }}</td>
+        <td>{{ installation.vehicule }}</td>
+        <td>{{ installation.technicien }}</td>
+        <td>{{ installation.date_installation }}</td>
+        <td>
+            {% if installation.date_desinstallation %}
+            <span class="statut-termine">Terminée</span>
+            {% else %}
+            <span class="statut-encours">En cours</span>
+            {% endif %}
+        </td>
+        <td>
+            <a href="/installations/{{ installation.id }}/modifier/" class="btn" style="font-size:11px; padding:4px 8px;">Modifier</a>
+            <a href="/installations/{{ installation.id }}/supprimer/" class="btn" style="font-size:11px; padding:4px 8px; background-color:red; margin-left:5px;">Supprimer</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="7" style="text-align:center; color:#999;">Aucune installation trouvée.</td>
+    </tr>
+    {% endfor %}
+</table>
+</div>
+{% endblock %}
