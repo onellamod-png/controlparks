@@ -18,12 +18,14 @@ def accueil(request):
     total_sims = CarteSIM.objects.count()
     total_installations = Installation.objects.filter(date_desinstallation=None).count()
     total_vehicules = Vehicule.objects.count()
-    
-    # Statistiques supplémentaires
-    boitiers_en_panne = Boitier.objects.filter(etat='panne').count()
-    boitiers_en_stock = Boitier.objects.filter(etat='stock').count()
     total_diagnostics = Diagnostic.objects.count()
-    
+
+    # Statistiques boîtiers
+    boitiers_en_stock = Boitier.objects.filter(etat='stock').count()
+    boitiers_installes = Boitier.objects.filter(etat='installe').count()
+    boitiers_en_panne = Boitier.objects.filter(etat='panne').count()
+    boitiers_retires = Boitier.objects.filter(etat='retire').count()
+
     # 5 dernières installations
     dernieres_installations = Installation.objects.all()[:5]
 
@@ -32,12 +34,13 @@ def accueil(request):
         'total_sims': total_sims,
         'total_installations': total_installations,
         'total_vehicules': total_vehicules,
-        'boitiers_en_panne': boitiers_en_panne,
-        'boitiers_en_stock': boitiers_en_stock,
         'total_diagnostics': total_diagnostics,
+        'boitiers_en_stock': boitiers_en_stock,
+        'boitiers_installes': boitiers_installes,
+        'boitiers_en_panne': boitiers_en_panne,
+        'boitiers_retires': boitiers_retires,
         'dernieres_installations': dernieres_installations,
     })
-
 
 # BOÎTIERS
 def liste_boitiers(request):

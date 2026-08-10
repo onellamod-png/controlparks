@@ -1,58 +1,64 @@
 {% extends 'equipements/base.html' %}
 {% block title %}Tableau de bord - Control Parks{% endblock %}
+
 {% block content %}
-<h2>Tableau de bord</h2>
-<p style="color:#666; font-size:13px; margin-bottom:25px;">Vue d'ensemble du parc d'équipements télématiques</p>
+<h2 style="margin-bottom:5px;">Tableau de bord</h2>
+<p style="color:#666; font-size:12px; margin-bottom:15px;">Vue d'ensemble du parc d'équipements télématiques</p>
 
-<!-- LIGNE 1 : CARDS PRINCIPALES -->
-<div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 25px;">
-
-    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #1F4E79;">
-        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Boîtiers installés</p>
-        <h2 style="font-size:42px; color:#1F4E79; margin:8px 0 0 0;">{{ total_installations }}</h2>
-        <p style="color:#1F4E79; font-size:12px; margin:5px 0 0 0;">▲ En cours</p>
+<!-- CARDS -->
+<div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+    <div style="background:white; border-radius:8px; padding:15px; min-width:120px; flex:1; box-shadow:0 2px 6px rgba(0,0,0,0.07); border-left:4px solid #1F4E79;">
+        <p style="color:#999; font-size:10px; margin:0; text-transform:uppercase;">Boîtiers installés</p>
+        <h2 style="font-size:28px; color:#1F4E79; margin:4px 0 0 0;">{{ boitiers_installes }}</h2>
+        <p style="color:#1F4E79; font-size:10px; margin:3px 0 0 0;">En cours</p>
     </div>
-
-    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid red;">
-        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Boîtiers en panne</p>
-        <h2 style="font-size:42px; color:red; margin:8px 0 0 0;">{{ boitiers_en_panne }}</h2>
-        <p style="color:red; font-size:12px; margin:5px 0 0 0;">⚠ Intervention requise</p>
+    <div style="background:white; border-radius:8px; padding:15px; min-width:120px; flex:1; box-shadow:0 2px 6px rgba(0,0,0,0.07); border-left:4px solid red;">
+        <p style="color:#999; font-size:10px; margin:0; text-transform:uppercase;">En panne</p>
+        <h2 style="font-size:28px; color:red; margin:4px 0 0 0;">{{ boitiers_en_panne }}</h2>
+        <p style="color:red; font-size:10px; margin:3px 0 0 0;">Intervention requise</p>
     </div>
-
-    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid orange;">
-        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Boîtiers en stock</p>
-        <h2 style="font-size:42px; color:orange; margin:8px 0 0 0;">{{ boitiers_en_stock }}</h2>
-        <p style="color:orange; font-size:12px; margin:5px 0 0 0;">◉ Disponibles</p>
+    <div style="background:white; border-radius:8px; padding:15px; min-width:120px; flex:1; box-shadow:0 2px 6px rgba(0,0,0,0.07); border-left:4px solid orange;">
+        <p style="color:#999; font-size:10px; margin:0; text-transform:uppercase;">En stock</p>
+        <h2 style="font-size:28px; color:orange; margin:4px 0 0 0;">{{ boitiers_en_stock }}</h2>
+        <p style="color:orange; font-size:10px; margin:3px 0 0 0;">Disponibles</p>
     </div>
-
-    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #2E75B6;">
-        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Cartes SIM</p>
-        <h2 style="font-size:42px; color:#2E75B6; margin:8px 0 0 0;">{{ total_sims }}</h2>
-        <p style="color:#2E75B6; font-size:12px; margin:5px 0 0 0;">◉ Enregistrées</p>
+    <div style="background:white; border-radius:8px; padding:15px; min-width:120px; flex:1; box-shadow:0 2px 6px rgba(0,0,0,0.07); border-left:4px solid #2E75B6;">
+        <p style="color:#999; font-size:10px; margin:0; text-transform:uppercase;">Cartes SIM</p>
+        <h2 style="font-size:28px; color:#2E75B6; margin:4px 0 0 0;">{{ total_sims }}</h2>
+        <p style="color:#2E75B6; font-size:10px; margin:3px 0 0 0;">Enregistrées</p>
     </div>
-
-    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #27AE60;">
-        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Véhicules suivis</p>
-        <h2 style="font-size:42px; color:#27AE60; margin:8px 0 0 0;">{{ total_vehicules }}</h2>
-        <p style="color:#27AE60; font-size:12px; margin:5px 0 0 0;">◉ Enregistrés</p>
+    <div style="background:white; border-radius:8px; padding:15px; min-width:120px; flex:1; box-shadow:0 2px 6px rgba(0,0,0,0.07); border-left:4px solid #27AE60;">
+        <p style="color:#999; font-size:10px; margin:0; text-transform:uppercase;">Véhicules</p>
+        <h2 style="font-size:28px; color:#27AE60; margin:4px 0 0 0;">{{ total_vehicules }}</h2>
+        <p style="color:#27AE60; font-size:10px; margin:3px 0 0 0;">Suivis</p>
     </div>
-
-    <div style="background: white; border-radius: 10px; padding: 25px 20px; min-width: 160px; flex:1; box-shadow: 0 2px 8px rgba(0,0,0,0.08); border-left: 5px solid #9B59B6;">
-        <p style="color:#999; font-size:12px; margin:0; text-transform:uppercase; letter-spacing:1px;">Diagnostics</p>
-        <h2 style="font-size:42px; color:#9B59B6; margin:8px 0 0 0;">{{ total_diagnostics }}</h2>
-        <p style="color:#9B59B6; font-size:12px; margin:5px 0 0 0;">◉ Signalements</p>
+    <div style="background:white; border-radius:8px; padding:15px; min-width:120px; flex:1; box-shadow:0 2px 6px rgba(0,0,0,0.07); border-left:4px solid #9B59B6;">
+        <p style="color:#999; font-size:10px; margin:0; text-transform:uppercase;">Diagnostics</p>
+        <h2 style="font-size:28px; color:#9B59B6; margin:4px 0 0 0;">{{ total_diagnostics }}</h2>
+        <p style="color:#9B59B6; font-size:10px; margin:3px 0 0 0;">Signalements</p>
     </div>
+</div>
 
+<!-- GRAPHIQUES -->
+<div style="display:flex; gap:15px; flex-wrap:wrap; margin-bottom:20px;">
+    <div style="background:white; border-radius:8px; padding:15px; flex:1; min-width:250px; box-shadow:0 2px 6px rgba(0,0,0,0.07);">
+        <h3 style="color:#1F4E79; margin-bottom:10px; font-size:13px;">Répartition des boîtiers</h3>
+        <canvas id="graphiqueBoitiers" height="160"></canvas>
+    </div>
+    <div style="background:white; border-radius:8px; padding:15px; flex:2; min-width:250px; box-shadow:0 2px 6px rgba(0,0,0,0.07);">
+        <h3 style="color:#1F4E79; margin-bottom:10px; font-size:13px;">État du parc d'équipements</h3>
+        <canvas id="graphiqueParc" height="160"></canvas>
+    </div>
 </div>
 
 <!-- DERNIÈRES INSTALLATIONS -->
-<div style="background: white; border-radius: 10px; padding: 25px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-        <h3 style="color:#1F4E79; margin:0;">Dernières installations</h3>
-        <a href="/installations/" style="color:#2E75B6; font-size:13px;">Voir tout →</a>
+<div style="background:white; border-radius:8px; padding:15px; box-shadow:0 2px 6px rgba(0,0,0,0.07);">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h3 style="color:#1F4E79; margin:0; font-size:13px;">Dernières installations</h3>
+        <a href="/installations/" style="color:#2E75B6; font-size:12px;">Voir tout →</a>
     </div>
-    <div style="overflow-x: auto;">
-    <table>
+    <div style="overflow-x:auto;">
+    <table style="font-size:12px;">
         <tr>
             <th>Boîtier</th>
             <th>Véhicule</th>
@@ -83,4 +89,43 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx1 = document.getElementById('graphiqueBoitiers').getContext('2d');
+    new Chart(ctx1, {
+        type: 'doughnut',
+        data: {
+            labels: ['Installés', 'En stock', 'En panne', 'Retirés'],
+            datasets: [{
+                data: [{{ boitiers_installes }}, {{ boitiers_en_stock }}, {{ boitiers_en_panne }}, {{ boitiers_retires }}],
+                backgroundColor: ['#1F4E79', 'orange', 'red', '#999'],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom', labels: { font: { size: 11 } } } }
+        }
+    });
+
+    const ctx2 = document.getElementById('graphiqueParc').getContext('2d');
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: ['Boîtiers', 'Cartes SIM', 'Véhicules', 'Diagnostics'],
+            datasets: [{
+                label: 'Nombre',
+                data: [{{ total_boitiers }}, {{ total_sims }}, {{ total_vehicules }}, {{ total_diagnostics }}],
+                backgroundColor: ['#1F4E79', '#2E75B6', '#27AE60', '#9B59B6'],
+                borderRadius: 5,
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, ticks: { stepSize: 1, font: { size: 11 } } } }
+        }
+    });
+</script>
 {% endblock %}

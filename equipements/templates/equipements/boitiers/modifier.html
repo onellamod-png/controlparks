@@ -1,18 +1,21 @@
 {% extends 'equipements/base.html' %}
-
 {% block title %}Modifier un boîtier{% endblock %}
-
 {% block content %}
 <a href="/boitiers/" class="retour">← Retour à la liste</a>
 <h2>Modifier le boîtier {{ boitier.numero_serie }}</h2>
-<form method="POST">
-    {% csrf_token %}
-    {% for field in form %}
-    <div class="form-group">
-        <label>{{ field.label }}</label>
-        {{ field }}
-    </div>
-    {% endfor %}
-    <button type="submit" class="btn">Enregistrer les modifications</button>
-</form>
+<div class="form-container">
+    <form method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <button type="submit" class="btn">Enregistrer</button>
+            <a href="javascript:history.back()" class="btn" style="background-color:gray;">Annuler</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

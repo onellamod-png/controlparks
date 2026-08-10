@@ -4,9 +4,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-# ============================================================
 # RÉFÉRENTIEL - Tables gérées par l'administrateur
-# ============================================================
 
 class ModeleBoitier(models.Model):
     # Nom du modèle de boîtier (ex: Teltonika FMB920), unique = pas de doublon
@@ -35,9 +33,7 @@ class TypeDefaut(models.Model):
         return self.libelle
 
 
-# ============================================================
 # UTILISATEURS
-# ============================================================
 
 class Technicien(models.Model):
     # Nom du technicien
@@ -58,9 +54,9 @@ class Technicien(models.Model):
         return f"{self.nom} {self.prenom}"
 
 
-# ============================================================
+
 # MATÉRIEL
-# ============================================================
+
 
 class Boitier(models.Model):
     # Liste des états possibles d'un boîtier (code, libellé affiché)
@@ -91,22 +87,15 @@ class CarteSIM(models.Model):
         ("suspendue", "Suspendue"),
         ("resiliee", "Résiliée"),
     ]
-    # Numéro de téléphone - identifiant principal utilisé par les techniciens
     numero_telephone = models.CharField(max_length=30, unique=True)
-    # ICCID - optionnel, numéro technique gravé sur la carte
-    iccid = models.CharField(max_length=30, blank=True)
-    # Opérateur téléphonique
     operateur = models.ForeignKey(Operateur, on_delete=models.PROTECT, related_name="cartes_sim")
-    # État actuel de la SIM, par défaut "Active"
     etat = models.CharField(max_length=20, choices=ETAT_CHOICES, default="active")
-    # Date d'activation (optionnelle)
     date_activation = models.DateField(null=True, blank=True)
 
     def __str__(self):
         return f"{self.numero_telephone} ({self.operateur})"
-# ============================================================
+
 # CLIENTS / VÉHICULES
-# ============================================================
 
 class Client(models.Model):
     nom = models.CharField(max_length=150)
@@ -131,9 +120,7 @@ class Vehicule(models.Model):
         return self.plaque
 
 
-# ============================================================
 # INSTALLATIONS - Table centrale de la traçabilité
-# ============================================================
 
 class Installation(models.Model):
     # Boîtier installé - lien vers la table Boitier
@@ -184,9 +171,7 @@ class Diagnostic(models.Model):
         return f"Diagnostic du {self.date_signalement:%d/%m/%Y} - {self.installation}"
 
 
-# ============================================================
 # JOURNAL - Traçabilité des modifications
-# ============================================================
 
 class JournalModification(models.Model):
     # Technicien qui a effectué la modification

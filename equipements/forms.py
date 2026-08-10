@@ -12,11 +12,10 @@ class BoitierForm(forms.ModelForm):
 class CarteSIMForm(forms.ModelForm):
     class Meta:
         model = CarteSIM
-        fields = ['numero_telephone', 'iccid', 'operateur', 'etat', 'date_activation']
+        fields = ['numero_telephone', 'operateur', 'etat', 'date_activation']
         widgets = {
             'date_activation': forms.DateInput(attrs={'type': 'date'}),
         }
-
         
 
 class ClientForm(forms.ModelForm):
@@ -29,7 +28,9 @@ class VehiculeForm(forms.ModelForm):
     class Meta:
         model = Vehicule
         fields = ['plaque', 'marque', 'modele', 'client']
-
+        labels = {
+            'plaque': 'Immatriculation',
+        }
 class InstallationForm(forms.ModelForm):
     class Meta:
         model = Installation
